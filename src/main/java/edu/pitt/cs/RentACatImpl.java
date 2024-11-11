@@ -18,7 +18,13 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		// TODO: Fill in
+		Cat c = getCat(id);
+		if(c != null && c.getRented()) {
+			c.returnCat();
+			System.out.println("Welcome back, " + c.getName() + "!");
+			return true;
+		}
+		System.out.println(c.getName() + " is already here!");
 		return false;
 	}
 
@@ -33,7 +39,13 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO: Fill in
+		Cat c = getCat(id);
+		if(c != null && !c.getRented()) {
+			c.rentCat();
+			System.out.println(c.getName() + " has been rented.");
+			return true;
+		}
+		System.out.println("Sorry, " + c.getName() + " is not here!");
 		return false;
 	}
 
@@ -47,7 +59,12 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean renameCat(int id, String name) {
-		// TODO: Fill in
+		Cat c  = getCat(id);
+		if(c != null && !c.getRented()) {
+			c.renameCat(name);
+			return true;
+		}
+
 		return false;
 	}
 
@@ -62,8 +79,11 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO: Fill in
-		return "WRITE CODE FOR THIS";
+		StringBuilder sb = new StringBuilder();
+		for(Cat c : cats) {
+			sb.append("ID " + c.getId() + ". " + c.getName() + "\n");
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -78,6 +98,7 @@ public class RentACatImpl implements RentACat {
 
 		// null check
 		if (cats == null) {
+			System.out.println("Invalid cat ID.");
 			return null;
 		}
 
